@@ -83,7 +83,7 @@ public class PrezziControllerTest
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$").value("1.0"))
+				.andExpect(jsonPath("$").value("10.8"))
 				.andReturn();
 	}
 

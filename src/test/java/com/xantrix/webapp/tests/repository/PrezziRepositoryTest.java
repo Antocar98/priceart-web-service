@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.test.context.TestPropertySource;
 
-@TestPropertySource(locations="classpath:application-list1.properties")
+@TestPropertySource(properties= {"profilo = list100", "seq= 1","ramo= main"})
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 public class PrezziRepositoryTest

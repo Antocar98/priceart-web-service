@@ -2,8 +2,8 @@
 #= PriceArt Web Service - Versione Base
 #==========================================================
 server:
-  #port: 5071
-  port: 507${seq}
+  port: 5071
+  #port: 507${seq}
 
 spring:
   config:
@@ -18,8 +18,8 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
-      profile: ${profilo}
-      label: ${ramo}
+      profile: list1
+      label: main
 
       fail-fast: true
       request-connect-timeout: 5

@@ -1,5 +1,6 @@
 package com.xantrix.webapp.controllers;
 
+import com.xantrix.webapp.dtos.PrezzoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +41,7 @@ public class PrezziController
 	// ------------------- SELECT PREZZO CODART ------------------------------------
 	@RefreshScope // identidica i metodi che subiranno modifiche a causa del cambio dei file di configurazione
 	@GetMapping(value = {"/{codart}/{idlist}", "/{codart}"})
-	public double getPriceCodArt(@PathVariable("codart") String CodArt, @PathVariable("idlist") Optional<String> optIdList)
+	public ResponseEntity<Double> getPriceCodArt(@PathVariable("codart") String CodArt, @PathVariable("idlist") Optional<String> optIdList)
 	{
 		// Inizializziamo retVal come BigDecimal a 0
 		double retVal = 0;
@@ -64,15 +65,50 @@ public class PrezziController
 
 				retVal = prezzo.getPrezzo().doubleValue() * ( 1 -(sconto/100));
 			} else {
-
 				retVal = prezzo.getPrezzo().doubleValue();
 			}
 
 		} else {
 			log.warning("Prezzo Articolo Assente!!");
+			return new ResponseEntity<Double>(retVal, HttpStatus.NOT_FOUND);
 		}
 
-		return retVal;
+		return new ResponseEntity<Double>(retVal, HttpStatus.OK);
+	}
+
+	@RefreshScope
+	@GetMapping(value = {"info/{codart}/{idlist}", "info/{codart}"})
+	public ResponseEntity<PrezzoDto> getPriceCodArt2(@PathVariable("codart") String CodArt,
+													 @PathVariable("idlist") Optional<String> optIdList)
+	{
+		PrezzoDto retVal = new PrezzoDto();
+
+		String idList = (optIdList.isPresent()) ? optIdList.get() : Config.getListino();
+
+
+		log.info("Listino di Riferimento: " + idList);
+
+		DettListini prezzo =  prezziService.SelPrezzo(CodArt, idList);
+
+		if (prezzo != null)
+		{
+			log.info("Prezzo Articolo: " + prezzo.getPrezzo());
+
+			double sconto = Config.getSconto();
+			int tipo =  Config.getTipo();
+
+			retVal.setCodArt(CodArt);
+			retVal.setPrezzo(prezzo.getPrezzo().doubleValue());
+			retVal.setSconto(sconto);
+			retVal.setTipo(tipo);
+		}
+		else
+		{
+			log.warning("Prezzo Articolo Assente!!");
+			return new ResponseEntity<PrezzoDto>(retVal, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<PrezzoDto>(retVal, HttpStatus.OK);
 	}
 	
 	// ------------------- DELETE PREZZO LISTINO ------------------------------------

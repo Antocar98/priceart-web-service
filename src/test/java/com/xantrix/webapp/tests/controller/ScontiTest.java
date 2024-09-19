@@ -97,7 +97,8 @@ public class ScontiTest
     public void ClearData()
     {
         Optional<Listini> listinoTest = listinoRepository.findById(IdList);
-        listinoRepository.delete(listinoTest.get());
+        listinoTest.ifPresent(listini -> listinoRepository.delete(listini));
+
     }
 }
 
