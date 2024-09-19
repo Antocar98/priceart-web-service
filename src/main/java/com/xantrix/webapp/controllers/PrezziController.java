@@ -40,29 +40,32 @@ public class PrezziController
 	// ------------------- SELECT PREZZO CODART ------------------------------------
 	@RefreshScope // identidica i metodi che subiranno modifiche a causa del cambio dei file di configurazione
 	@GetMapping(value = {"/{codart}/{idlist}", "/{codart}"})
-	public @Min(value = (long) 0.01, message = "{Min.DettListini.prezzo.Validation}") BigDecimal getPriceCodArt(@PathVariable("codart") String CodArt, @PathVariable("idlist") Optional<String> optIdList)
+	public double getPriceCodArt(@PathVariable("codart") String CodArt, @PathVariable("idlist") Optional<String> optIdList)
 	{
 		// Inizializziamo retVal come BigDecimal a 0
-		BigDecimal retVal = BigDecimal.valueOf(0);
+		double retVal = 0;
 
 		// Otteniamo l'ID del listino, se presente, altrimenti usiamo il valore di default
-		String IdList = optIdList.orElse(Config.getListino());
+		String IdList = optIdList.orElseGet(() -> Config.getListino());
+
 		log.info("Listino di Riferimento: " + IdList);
 
 		// Otteniamo il prezzo dal servizio
 		DettListini prezzo = prezziService.SelPrezzo(CodArt, IdList);
 
 		if (prezzo != null) {
-			log.info("Prezzo Articolo: " + prezzo.getPrezzo());
-			BigDecimal sconto = BigDecimal.valueOf(Config.getSconto());
 
-			if (sconto.compareTo(BigDecimal.ZERO) > 0) {
+			log.info("Prezzo Articolo: " + prezzo.getPrezzo());
+
+			double sconto = Config.getSconto();
+
+			if (sconto > 0) {
 				log.info("Attivato sconto: " + sconto + "%");
-				// Calcoliamo il prezzo con lo sconto
-				BigDecimal percentualeSconto = BigDecimal.ONE.subtract(sconto.divide(BigDecimal.valueOf(100)));
-				retVal = prezzo.getPrezzo().multiply(percentualeSconto).setScale(2, RoundingMode.HALF_UP);
+
+				retVal = prezzo.getPrezzo().doubleValue() * ( 1 -(sconto/100));
 			} else {
-				retVal = prezzo.getPrezzo();
+
+				retVal = prezzo.getPrezzo().doubleValue();
 			}
 
 		} else {

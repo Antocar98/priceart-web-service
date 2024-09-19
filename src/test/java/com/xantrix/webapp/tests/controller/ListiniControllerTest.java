@@ -18,13 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import com.xantrix.webapp.PriceArtService;
 import com.xantrix.webapp.repository.ListinoRepository;
-//@TestPropertySource(locations="classpath:application-list100.properties")
+@TestPropertySource(properties= {"profilo = list100", "seq= 1","ramo= main"})
 @ContextConfiguration(classes = PriceArtService.class)
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)

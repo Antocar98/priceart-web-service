@@ -2,7 +2,8 @@
 #= PriceArt Web Service - Versione Base
 #==========================================================
 server:
-  port: 5071
+  #port: 5071
+  port: 507${seq}
 
 spring:
   config:
@@ -17,8 +18,8 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
-      profile: list1
-      label: main
+      profile: ${profilo}
+      label: ${ramo}
 
       fail-fast: true
       request-connect-timeout: 5
@@ -28,10 +29,20 @@ spring:
       username: user
       password: BimBumBam_2018
 
+# ==============================================================
+# = Proprietà RabbitMQ
+# ==============================================================
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+
 
   # ==============================================================
-  # = Proprietà Fonte Dati PostgreSQL
-  # ==============================================================
+# = Proprietà Fonte Dati PostgreSQL
+# ==============================================================
   sql:
     init:
       mode: always

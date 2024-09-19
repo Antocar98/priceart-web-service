@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import com.xantrix.webapp.repository.ListinoRepository;
 
-@TestPropertySource(locations="classpath:application-list100.properties")
+@TestPropertySource(properties= {"profilo = list100", "seq= 1","ramo= main"})
 @ContextConfiguration(classes = PriceArtService.class)
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
