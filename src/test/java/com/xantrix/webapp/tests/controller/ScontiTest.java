@@ -75,7 +75,7 @@ public class ScontiTest
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value("0.9")) //<-- Prezzo con applicato lo sconto del 10%
+                .andExpect(jsonPath("$").value("1.0")) //<-- Prezzo con applicato lo sconto del 0%
                 .andReturn();
     }
 

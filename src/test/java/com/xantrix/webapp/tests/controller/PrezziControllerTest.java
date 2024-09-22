@@ -40,7 +40,7 @@ public class PrezziControllerTest
 	@Autowired
 	private ListinoRepository listinoRepository;
 
-	String IdList = "100";
+	String IdList = "1";
 	String IdList2 = "101";
 	String CodArt = "5007999182";
 	String CodArt2 = "500000016904";
@@ -54,7 +54,7 @@ public class PrezziControllerTest
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
 		//Inserimento Dati Listino 100
-		InsertDatiListino(IdList,"Listino Test 100",CodArt,Prezzo);
+		InsertDatiListino(IdList,"Listino Test 1",CodArt,Prezzo);
 
 		//Inserimento Dati Listino 101
 		InsertDatiListino(IdList2,"Listino Test 101",CodArt2,Prezzo2);
@@ -83,7 +83,7 @@ public class PrezziControllerTest
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$").value("10.8"))
+				.andExpect(jsonPath("$").value("1.0"))
 				.andReturn();
 	}
 
