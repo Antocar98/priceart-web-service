@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestPropertySource(properties= {"profilo = list1", "seq= 1","ramo= main"})
+@TestPropertySource(properties= {"profilo = test", "seq= 1","ramo= main"})
 @ContextConfiguration(classes = PriceArtService.class)
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Component
-@ConfigurationProperties("application")
+@ConfigurationProperties("")
 @Getter
 @Setter
 public class AppConfig

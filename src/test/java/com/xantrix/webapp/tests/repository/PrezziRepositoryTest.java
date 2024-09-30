@@ -1,4 +1,4 @@
-package com.xantrix.webapp.repository;
+package com.xantrix.webapp.tests.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.transaction.Transactional;
 import com.xantrix.webapp.entities.DettListini;
 import com.xantrix.webapp.entities.Listini;
+import com.xantrix.webapp.repository.ListinoRepository;
+import com.xantrix.webapp.repository.PrezziRepository;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -17,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.test.context.TestPropertySource;
 
-@TestPropertySource(properties= {"profilo = list100", "seq= 1","ramo= main"})
+@TestPropertySource(properties= {"profilo = test", "seq= 1","ramo= main"})
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 public class PrezziRepositoryTest

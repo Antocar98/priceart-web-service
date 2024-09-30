@@ -1,25 +1,20 @@
 #==========================================================
-#= PriceArt Web Service - Versione Base
+#= PriceArt Web Service - Versione Conf Esternalizzata
 #==========================================================
-server:
-  port: 507${seq}
-
 spring:
-  config:
-    import: configserver:http://localhost:8888
   application:
     name: PriceArtService
-
-
-# ==============================================================
-# = Proprietà Config Server
-# ==============================================================
+  # ==============================================================
+  # = Cloud Parameteres
+  # ==============================================================
   cloud:
+    # ==============================================================
+    # = Proprietà Config Server
+    # ==============================================================
     config:
-      uri: http://localhost:8888
-      profile: list1
-      label: main
-
+      #uri: http://localhost:8888
+      profile: ${profile}
+      label: ${ramo}
       fail-fast: true
       request-connect-timeout: 5
       retry:
@@ -28,73 +23,34 @@ spring:
       username: user
       password: BimBumBam_2018
 
-  # ==============================================================
-  # = Proprietà RabbitMQ
-  # ==============================================================
-
-  kafka:
-    bootstrap-servers:
-      - ${KAFKA_ADDR:http://localhost:29092}
-    client-id: ${spring.application.name}:${profilo}:507${seq}
-
-# ==============================================================
-# = Proprietà RabbitMQ
-# ==============================================================
-
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: rabbitmq
-    password: rabbitmq
-
-
-  # ==============================================================
-# = Proprietà Fonte Dati PostgreSQL
-# ==============================================================
-  sql:
-    init:
-      mode: always
-      platform: postgres
-  datasource:
-    password: 123_Stella
-    url: jdbc:postgresql://localhost:5433/AlphaShop
-    username: postgres
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-
-# ==============================================================
-# = Livello Log di Sicurezza
-# ==============================================================
-logging:
-  level:
-    org.springframework.security: DEBUG
-
-# ==============================================================
-#= Opzioni Accesso Servizio gestuser
-# ==============================================================
-gestuser:
-  srvUrl: http://localhost:8100/api/utenti/cerca/userid/
-  userId: ReadUser
-  password: BimBumBam_2018
+      discovery:
+        serviceId: CONFIGSERVER
+        enabled: true
 
 # ==============================================================
 # = Eureka Properties
+# = Nota: prima di attivare il servizio servono tre heartbeat
 # ==============================================================
-
 eureka:
+  # ==============================================================
+  # = Impostazioni Instance
+  # ==============================================================
+  instance:
+    #intervallo di attesa prima della rimozione del servizio (def 90 sec)
+    lease-expiration-duration-in-seconds: 60
+    #intervallo di invio dell'heartbeat (def 30 sec)
+    leaseRenewalIntervalInSeconds: 15
+    #id di identificazione dell'istanza
+    instanceId: ${server.port}-${spring.application.name}-${seq}
+    #registrazione per indirizzo ip (defualt hostname)
+    preferIpAddress: true
+  # ==============================================================
+  # = Impostazioni Client
+  # ==============================================================
   client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
-    bus:
-      enabled: true
-      refresh:
-        enabled: true
-      env:
-        enabled: true
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://user:BimBumBam_2018@localhost:8761/eureka/,http://user:BimBumBam_2018@localhost:8762/eureka/
+    #time out di connessione in secondi al server Eureka (def 5 sec)
+    eureka-server-connect-timeout-seconds: 8

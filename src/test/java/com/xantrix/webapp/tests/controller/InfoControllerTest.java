@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@TestPropertySource(properties= {"profilo = list100", "seq= 1","ramo= main"})
+@TestPropertySource(properties= {"profilo = test", "seq= 1","ramo= main"})
 @ContextConfiguration(classes = PriceArtService.class)
 @SpringBootTest
 public class InfoControllerTest
